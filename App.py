@@ -4,24 +4,34 @@ from kivymd.uix.button import MDButton, MDButtonText
 from kivymd.uix.dialog import (MDDialog, MDDialogHeadlineText, MDDialogSupportingText, MDDialogButtonContainer)
 from kivymd.uix.menu import MDDropdownMenu
 from kivy.core.window import Window
+from kivy.utils import get_color_from_hex
 
 class MiApp(MDApp):
     
     def build(self):
         
-        Window.clearcolor = (200, 150, 100, 200) # color de fondo de toda la ventana
+        Window.clearcolor = (1, 1, 1, 1) # color de fondo de toda la ventana
 
         pantalla = MDScreen()
         
         boton = MDButton(
         MDButtonText(text="¿Desea reservar una sala?"), 
         style="filled",
-        pos_hint={"center_x": 0.5, "center_y": 0.5},)
+        pos_hint={"center_x": 0.5, "center_y": 0.5},
+        
+        theme_bg_color = "Custom",
+        md_bg_color = get_color_from_hex("#009FE1"),
+        
+        )
         
         self.boton2 = MDButton(
         MDButtonText(text="Opciones"),
         style="filled",
-        pos_hint={"center_x": 0.5, "center_y": 0.4},)
+        pos_hint={"center_x": 0.5, "center_y": 0.4},
+        
+        theme_bg_color = "Custom",
+        md_bg_color = get_color_from_hex("#009FE1"),
+        )
         
         self.boton2.bind(on_release=self.abrir_menu)
         
