@@ -5,10 +5,10 @@ Lógica de ReservasUCT (sin interfaz gráfica).
 - GestorReservas: guarda la lista de reservas y evita choques de horario.
 """
 
-SALAS = ["Sala de Piano", "Sala de Ensayo", "Cabina Individual", "Sala de Percusión"]
-DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
-HORAS = ["09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
-MOTIVOS = ["Estudio", "Ensayo", "Clases"]
+SALAS = ["Sala de piano", "Sala de teoria musical", "Auditorio", "Sala de percusión"]
+DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
+HORAS = ["09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"]
+MOTIVOS = ["Estudio", "Ensayo"]
 MAX_ACOMPANANTES = 3
 
 
