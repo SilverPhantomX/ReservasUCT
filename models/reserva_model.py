@@ -3,6 +3,10 @@ Lógica de ReservasUCT (sin interfaz gráfica).
 - Reserva: guarda los datos de UNA reserva y sabe validarse.
 - GestorReservas: guarda la lista de reservas y evita choques de horario.
 """
+
+import datetime
+from datetime import datetime
+
 SALAS = ["Sala de piano", "Sala de teoria musical", "Auditorio", "Sala de percusión"]
 DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
 HORAS = ["09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"]
@@ -22,6 +26,20 @@ class Reserva:
         self.hora = hora
         self.motivo = motivo
         self.acompanantes = acompanantes
+        self.fecha_registro = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        
+    def to_dict(self):
+        # Serializa los atributos en un diccionario para la persistencia
+        return {
+            "nombre": self.nombre,
+            "correo": self.correo,
+            "sala": self.sala,
+            "dia": self.dia,
+            "hora": self.hora,
+            "motivo": self.motivo,
+            "acompanantes": self.acompanantes,
+            "fecha_registro": self.fecha_registro
+        }
 
     #Valida los datos del usuario
     def validar(self):
@@ -51,28 +69,6 @@ class Reserva:
 
     #funcion para obtener el resumen del la reserva
     def resumen(self):
-        return (f"{self.nombre}\n{self.sala}\n{self.dia} a las {self.hora}\n"
+        return (f"Registrado el: {self.fecha_registro}\n"
+                f"{self.nombre}\n{self.sala}\n{self.dia} a las {self.hora}\n"
                 f"Motivo: {self.motivo} - Acompañantes: {self.acompanantes}")
-
-
-#Administra todas las reservas de la academia
-class GestorReservas:
-
-    #constructor del gestor
-    def __init__(self):
-        self.reservas = []
-
-    #funcion de agregar reserva
-    def agregar(self, reserva):
-        #Intenta guardar la reserva. Devuelve la lista de errores (si está vacía, la reserva se guardó)
-        errores = reserva.validar()
-        for existente in self.reservas:
-            if reserva.choca_con(existente):
-                errores.append(f"{reserva.sala} ya está reservada el {reserva.dia} a las {reserva.hora}.")
-        if not errores:
-            self.reservas.append(reserva)
-        return errores
-
-    #Funcion para eliminar reserva
-    def anular(self, reserva):
-        self.reservas.remove(reserva)
