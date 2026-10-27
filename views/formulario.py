@@ -31,7 +31,24 @@ class FormularioScreen(MDScreen):
         formulario.add_widget(self.campo_correo)
         
         formulario.add_widget(self.crear_boton_menu("sala", "Elegir sala", SALAS))
-        formulario.add_widget(self.crear_boton_menu("dia", "Elegir día", DIAS))
+        #formulario.add_widget(self.crear_boton_menu("dia", "Elegir día", DIAS))
+        self.texto_fecha = MDButtonText(
+            text="Fecha no seleccionada",
+            pos_hint={
+                "center_x": 0.5,
+                "center_y": 0.5
+            }
+        )
+
+        self.boton_fecha = MDButton(
+            self.texto_fecha,
+            style="outlined",
+            theme_width="Custom",
+            size_hint_x=1,
+            disabled=True
+        )
+
+        formulario.add_widget(self.boton_fecha)
         formulario.add_widget(self.crear_boton_menu("hora", "Elegir hora", HORAS))
         formulario.add_widget(self.crear_boton_menu("motivo", "Motivo de la reserva", MOTIVOS))
         formulario.add_widget(self.crear_boton_menu("acompanantes", "Acompañantes: 0", list(range(MAX_ACOMPANANTES + 1))))
@@ -142,3 +159,14 @@ class FormularioScreen(MDScreen):
 
     def ir_a_reservas(self, *args):    
         self.manager.current = "reservas"
+        
+    def recibir_fecha(self, fecha):
+        # Guardamos la fecha recibida
+        self.fecha_seleccionada = fecha
+
+        # Guardamos también la fecha en la selección de la app
+        app = MDApp.get_running_app()
+        app.seleccion["dia"] = fecha
+
+        # La mostramos en el formulario
+        self.texto_fecha.text = f"Fecha: {fecha}"

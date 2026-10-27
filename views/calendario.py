@@ -228,10 +228,17 @@ class Calendario(MDScreen):
         self.mes_seleccionado = self.mes_actual
         self.anio_seleccionado = self.anio_actual
         # La mostramos en consola por ahora self.calendario
-        print(
-            f"Fecha seleccionada: "
+        fecha= (
             f"{self.dia_seleccionado}/"
             f"{self.mes_seleccionado}/"
             f"{self.anio_seleccionado}"
         )
+        print (f"Fecha selecionada: {fecha}")
+        
+        # Buscamos la pantalla del formulario
+        formulario = self.manager.get_screen("formulario")
+        
+        # Le pasamos la fecha seleccionada
+        formulario.recibir_fecha(fecha)
+        
         self.manager.current = "formulario" 

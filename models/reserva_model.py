@@ -3,7 +3,7 @@ Lógica de ReservasUCT (sin interfaz gráfica).
 - Reserva: guarda los datos de UNA reserva y sabe validarse.
 - GestorReservas: guarda la lista de reservas y evita choques de horario.
 """
-
+import random
 import datetime
 from datetime import datetime
 
@@ -18,7 +18,7 @@ class Reserva:
     #Una reserva de sala por un bloque de 1 hora
     
     #constructor de las reservas
-    def __init__(self, nombre, correo, sala, dia, hora, motivo, acompanantes):
+    def __init__(self, nombre, correo, sala, dia, hora, motivo, acompanantes, codigo_acceso=None):
         self.nombre = nombre.strip()
         self.correo = correo.strip()
         self.sala = sala
@@ -26,6 +26,7 @@ class Reserva:
         self.hora = hora
         self.motivo = motivo
         self.acompanantes = acompanantes
+        self.codigo_acceso = codigo_acceso
         self.fecha_registro = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         
     def to_dict(self):
@@ -38,6 +39,7 @@ class Reserva:
             "hora": self.hora,
             "motivo": self.motivo,
             "acompanantes": self.acompanantes,
+            "codigo_acceso": self.codigo_acceso,
             "fecha_registro": self.fecha_registro
         }
 
@@ -71,4 +73,5 @@ class Reserva:
     def resumen(self):
         return (f"Registrado el: {self.fecha_registro}\n"
                 f"{self.nombre}\n{self.sala}\n{self.dia} a las {self.hora}\n"
-                f"Motivo: {self.motivo} - Acompañantes: {self.acompanantes}")
+                f"Motivo: {self.motivo} - Acompañantes: {self.acompanantes}\n"
+                f"Codigo de acceso:{self.codigo_acceso}\n")
