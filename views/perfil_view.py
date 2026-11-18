@@ -1,9 +1,8 @@
 from kivy.uix.screenmanager import Screen
 from kivymd.uix.label import MDLabel
-from kivymd.uix.button import MDButton, MDButtonIcon, MDButtonText
+from kivymd.uix.button import MDButton, MDButtonText
 from kivymd.uix.boxlayout import MDBoxLayout
 from views.calendario import AZUL
-from kivymd.uix.anchorlayout import MDAnchorLayout
 from kivymd.uix.scrollview import MDScrollView
 from kivy.metrics import dp
 from kivymd.app import MDApp

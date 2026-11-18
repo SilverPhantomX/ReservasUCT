@@ -49,7 +49,8 @@ class FormularioScreen(MDScreen):
         )
 
         formulario.add_widget(self.boton_fecha)
-        formulario.add_widget(self.crear_boton_menu("hora", "Elegir hora", HORAS))
+        formulario.add_widget(self.crear_boton_menu("hora_inicio", "Elegir hora de inicio", HORAS))
+        formulario.add_widget(self.crear_boton_menu("hora_termino", "Elegir hora de termino", HORAS))
         formulario.add_widget(self.crear_boton_menu("motivo", "Motivo de la reserva", MOTIVOS))
         formulario.add_widget(self.crear_boton_menu("acompanantes", "Acompañantes: 0", list(range(MAX_ACOMPANANTES + 1))))
         
@@ -65,20 +66,20 @@ class FormularioScreen(MDScreen):
             MDButtonIcon(icon="home", theme_text_color="Custom", text_color=(1, 1, 1, 1)),
             MDButtonText(text="Inicio", theme_text_color="Custom", text_color=(1, 1, 1, 1)),
             style="text", size_hint=(None, None),
-            on_release=self.ir_inicio
+            on_release=lambda x: setattr(self.manager, 'current', 'calendario')
         )
         btn_reservas = MDButton(
             MDButtonIcon(icon="calendar", theme_text_color="Custom", text_color=(1, 1, 1, 1)),
             MDButtonText(text="Reservas", theme_text_color="Custom", text_color=(1, 1, 1, 1)),
             style="text", size_hint=(None, None),
-            on_release=self.ir_a_reservas
+            on_release=lambda x: setattr(self.manager, 'current', 'reservas')
         )
         # Botón Perfil
         btn_perfil = MDButton(
             MDButtonIcon(icon="account", theme_text_color="Custom", text_color=(1, 1, 1, 1)),
             MDButtonText(text="Perfil",theme_text_color="Custom",text_color=(1, 1, 1, 1)),
             style="text", size_hint=(None, None),
-            on_release=self.ir_perfil)
+            on_release=lambda x: setattr(self.manager, 'current', 'perfil'))
         
         zona_inicio.add_widget(btn_inicio)
         zona_reservas.add_widget(btn_reservas)
@@ -90,7 +91,6 @@ class FormularioScreen(MDScreen):
         scroll = MDScrollView()
         scroll.add_widget(formulario)
         caja.add_widget(scroll)
-        caja.add_widget(navegacion)
         self.add_widget(caja)
 
     def crear_titulo(self, texto):
@@ -178,7 +178,7 @@ class FormularioScreen(MDScreen):
         app = MDApp.get_running_app()
         self.reserva_nueva = Reserva(
             self.campo_nombre.text, self.campo_correo.text, app.seleccion["sala"],
-            app.seleccion["dia"], app.seleccion["hora"], app.seleccion["motivo"], app.seleccion["acompanantes"],
+            app.seleccion["dia"], app.seleccion["hora_inicio"], app.seleccion["hora_termino"], app.seleccion["motivo"], app.seleccion["acompanantes"],
             None, "Pendiente", app.usuario_actual.correo
         )
         errores = self.reserva_nueva.validar()
