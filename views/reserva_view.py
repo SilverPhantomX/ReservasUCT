@@ -84,9 +84,13 @@ class ReservaScreen(MDScreen):
         if not app.gestor.reservas:        
             self.lista.add_widget(MDLabel(text="Aún no tienes reservas.", adaptive_height=True))
             return
-        for reserva in app.gestor.reservas:        
+        for reserva in app.gestor.reservas:   
+            if (app.usuario_actual.rol == "Estudiante" and reserva.usuario_correo != app.usuario_actual.correo
+                ):  
+                continue   
             self.lista.add_widget(MDLabel(text=reserva.resumen(), adaptive_height=True))
-            self.lista.add_widget(self.crear_boton("ANULAR", GUINDA, lambda x, r=reserva: self.preguntar_anular(r)))
+            if reserva.estado in ["Pendiente", "Confirmada"]:
+                self.lista.add_widget(self.crear_boton("ANULAR", GUINDA, lambda x, r=reserva: self.preguntar_anular(r)))
             
     def mostrar_dialogo(self, titulo, texto, botones):
         contenedor = MDDialogButtonContainer(spacing="8dp")

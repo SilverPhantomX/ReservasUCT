@@ -9,16 +9,17 @@ from datetime import datetime
 
 SALAS = ["Sala de piano", "Sala de teoria musical", "Auditorio", "Sala de percusión"]
 DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
-HORAS = ["09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"]
+HORAS = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"]
 MOTIVOS = ["Estudio", "Ensayo"]
 MAX_ACOMPANANTES = 3
+ESTADOS = ["Pendiente", "Confirmada", "Cancelada", "Finalizada"]
 
 #Clase reserva :)
 class Reserva:
     #Una reserva de sala por un bloque de 1 hora
     
     #constructor de las reservas
-    def __init__(self, nombre, correo, sala, dia, hora, motivo, acompanantes, codigo_acceso=None):
+    def __init__(self, nombre, correo, sala, dia, hora, motivo, acompanantes, codigo_acceso=None, estado="Pendiente", usuario_correo=None):
         self.nombre = nombre.strip()
         self.correo = correo.strip()
         self.sala = sala
@@ -27,7 +28,10 @@ class Reserva:
         self.motivo = motivo
         self.acompanantes = acompanantes
         self.codigo_acceso = codigo_acceso
+        self.estado = estado
         self.fecha_registro = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        self.usuario_correo = usuario_correo
+        
         
     def to_dict(self):
         # Serializa los atributos en un diccionario para la persistencia
@@ -40,7 +44,9 @@ class Reserva:
             "motivo": self.motivo,
             "acompanantes": self.acompanantes,
             "codigo_acceso": self.codigo_acceso,
-            "fecha_registro": self.fecha_registro
+            "fecha_registro": self.fecha_registro,
+            "estado": self.estado,   
+            "usuario_correo": self.usuario_correo
         }
 
     #Valida los datos del usuario
@@ -74,4 +80,5 @@ class Reserva:
         return (f"Registrado el: {self.fecha_registro}\n"
                 f"{self.nombre}\n{self.sala}\n{self.dia} a las {self.hora}\n"
                 f"Motivo: {self.motivo} - Acompañantes: {self.acompanantes}\n"
-                f"Codigo de acceso:{self.codigo_acceso}\n")
+                f"Codigo de acceso:{self.codigo_acceso}\n"
+                f"Estado: {self.estado}\n")
