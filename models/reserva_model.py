@@ -9,7 +9,7 @@ from datetime import datetime
 
 SALAS = ["Sala de piano", "Sala de teoria musical", "Auditorio", "Sala de percusión"]
 DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
-HORAS = ["09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"]
+HORAS = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"]
 MOTIVOS = ["Estudio", "Ensayo"]
 MAX_ACOMPANANTES = 3
 
@@ -18,12 +18,13 @@ class Reserva:
     #Una reserva de sala por un bloque de 1 hora
     
     #constructor de las reservas
-    def __init__(self, nombre, correo, sala, dia, hora, motivo, acompanantes, codigo_acceso=None):
+    def __init__(self, nombre, correo, sala, dia, hora_inicio, hora_termino, motivo, acompanantes, codigo_acceso=None):
         self.nombre = nombre.strip()
         self.correo = correo.strip()
         self.sala = sala
         self.dia = dia
-        self.hora = hora
+        self.hora_inicio = hora_inicio
+        self.hora_termino = hora_termino
         self.motivo = motivo
         self.acompanantes = acompanantes
         self.codigo_acceso = codigo_acceso
@@ -36,7 +37,8 @@ class Reserva:
             "correo": self.correo,
             "sala": self.sala,
             "dia": self.dia,
-            "hora": self.hora,
+            "hora_inicio": self.hora_inicio,
+            "hora_termino": self.hora_termino,
             "motivo": self.motivo,
             "acompanantes": self.acompanantes,
             "codigo_acceso": self.codigo_acceso,
@@ -56,8 +58,10 @@ class Reserva:
             errores.append("Debe elegir una sala.")
         if self.dia is None:
             errores.append("Debe elegir un día.")
-        if self.hora is None:
-            errores.append("Debe elegir una hora.")
+        if self.hora_inicio is None:
+            errores.append("Debe elegir una hora de inicio.")
+        if self.hora_termino is None:
+            errores.append("Debe elegir una hora de termino.")
         if self.motivo is None:
             errores.append("Debe elegir un motivo.")
         if self.acompanantes > MAX_ACOMPANANTES:
@@ -67,11 +71,11 @@ class Reserva:
     #funcion para ver si una reserva choca con otra
     def choca_con(self, otra):
         #True si las dos reservas piden la misma sala, el mismo día y a la misma hora.
-        return self.sala == otra.sala and self.dia == otra.dia and self.hora == otra.hora
+        return self.sala == otra.sala and self.dia == otra.dia and self.hora_inicio == otra.hora_inicio
 
     #funcion para obtener el resumen del la reserva
     def resumen(self):
         return (f"Registrado el: {self.fecha_registro}\n"
-                f"{self.nombre}\n{self.sala}\n{self.dia} a las {self.hora}\n"
+                f"{self.nombre}\n{self.sala}\n{self.dia} a las {self.hora_inicio} hasta las {self.hora_termino}\n"
                 f"Motivo: {self.motivo} - Acompañantes: {self.acompanantes}\n"
                 f"Codigo de acceso:{self.codigo_acceso}\n")

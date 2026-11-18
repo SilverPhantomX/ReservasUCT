@@ -1,9 +1,8 @@
 from kivy.uix.screenmanager import Screen
 from kivymd.uix.label import MDLabel
-from kivymd.uix.button import MDButton, MDButtonIcon, MDButtonText
+from kivymd.uix.button import MDButton, MDButtonText
 from kivymd.uix.boxlayout import MDBoxLayout
 from views.calendario import AZUL
-from kivymd.uix.anchorlayout import MDAnchorLayout
 from kivymd.uix.scrollview import MDScrollView
 from kivy.metrics import dp
 from kivymd.app import MDApp
@@ -23,43 +22,9 @@ class PerfilView(Screen):
                 halign="center"
             )
         )
-        caja = MDBoxLayout(orientation="vertical")    
-            
-        navegacion = MDBoxLayout(size_hint_y=None, height=dp(70), md_bg_color=AZUL)
-        zona_inicio = MDAnchorLayout(size_hint_x=1, anchor_x="center", anchor_y="center")
-        zona_reservas = MDAnchorLayout(size_hint_x=1, anchor_x="center", anchor_y="center")
-        zona_perfil = MDAnchorLayout(size_hint_x=1, anchor_x="center", anchor_y="center")
         
-        btn_inicio = MDButton(
-            MDButtonIcon(icon="home", theme_text_color="Custom", text_color=(1, 1, 1, 1)),
-            MDButtonText(text="Inicio", theme_text_color="Custom", text_color=(1, 1, 1, 1)),
-            style="text", size_hint=(None, None),
-            on_release=lambda x: setattr(self.manager, 'current', 'calendario')
-        )
-        btn_reservas = MDButton(
-            MDButtonIcon(icon="calendar", theme_text_color="Custom", text_color=(1, 1, 1, 1)),
-            MDButtonText(text="Reservas", theme_text_color="Custom", text_color=(1, 1, 1, 1)),
-            style="text", size_hint=(None, None),
-            on_release=lambda x: setattr(self.manager, 'current', 'reservas')
-        )
-        # Botón Perfil
-        btn_perfil = MDButton(
-            MDButtonIcon(icon="account", theme_text_color="Custom", text_color=(1, 1, 1, 1)),
-            MDButtonText(text="Perfil",theme_text_color="Custom",text_color=(1, 1, 1, 1)),
-            style="text", size_hint=(None, None),
-            on_release=lambda x: setattr(self.manager, 'current', 'perfil'))
-        
-        zona_inicio.add_widget(btn_inicio)
-        zona_reservas.add_widget(btn_reservas)
-        zona_perfil.add_widget(btn_perfil)
-        navegacion.add_widget(zona_inicio)
-        navegacion.add_widget(zona_reservas)
-        navegacion.add_widget(zona_perfil)
-
         scroll = MDScrollView()
-        caja.add_widget(scroll)
-        caja.add_widget(navegacion)
-        self.add_widget(caja)
+        self.add_widget(scroll)
 
     def crear_titulo(self, texto):
         barra = MDBoxLayout(size_hint_y=None, height=dp(70), md_bg_color=AZUL)

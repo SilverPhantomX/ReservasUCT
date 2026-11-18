@@ -4,7 +4,7 @@ Config.set("graphics", "height", "680")
 
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager
-from services.admin_repositorio import RepositorioAdminJSON
+from services.admin_persistencia import RepositorioAdminJSON
 from views.admin.admin_view import AdminDashboardView
 
 
