@@ -23,7 +23,7 @@ class GestorReservas:
             if (reserva.choca_con(existente) and existente.estado != "Cancelada"):
                 errores.append(
                     f"{reserva.sala} ya está reservada "
-                    f"el {reserva.dia} a las {reserva.hora}.")
+                    f"el {reserva.dia} a las {reserva.hora_inicio}.")
                 
         if not errores:
             reserva.codigo_acceso = self.generar_codigo_acceso()
@@ -77,7 +77,7 @@ class GestorReservas:
         for reserva in self.reservas:
             if (reserva.dia == dia and reserva.sala == sala and reserva.estado != "Cancelada"
                 ):
-                horas_ocupadas.append(reserva.hora)
+                horas_ocupadas.append(reserva.hora_inicio)
 
         return [
             hora for hora in HORAS

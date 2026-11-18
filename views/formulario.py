@@ -115,7 +115,7 @@ class FormularioScreen(MDScreen):
         
         app = MDApp.get_running_app()
 
-        if campo == "hora":
+        if campo in ["hora_inicio", "hora_termino"]:
         
             if app.seleccion["dia"] is None:
                 self.mostrar_dialogo(
@@ -155,8 +155,11 @@ class FormularioScreen(MDScreen):
         app.seleccion[campo] = opcion
         
         if campo == "sala":
-            app.seleccion["hora"] = None
-            app.textos_botones["hora"].text = "Elegir hora"
+            app.seleccion["hora_inicio"] = None
+            app.seleccion["hora_termino"] = None
+            
+            app.textos_botones["hora_inicio"].text = "Elegir hora de inicio"
+            app.textos_botones["hora_termino"].text = "Elegir hora de termino"
         
         if campo == "acompanantes":
             app.textos_botones[campo].text = f"Acompañantes: {opcion}"
@@ -231,17 +234,20 @@ class FormularioScreen(MDScreen):
 
         # Reiniciar selección
         app.seleccion = {
-            "sala": None,
-            "dia": None,
-            "hora": None,
-            "motivo": None,
-            "acompanantes": 0
+                "sala": None,
+                "dia": None,
+                "hora_inicio": None,
+                "hora_termino": None,
+                "motivo": None,
+                "acompanantes": 0
         }
 
         app.textos_botones["sala"].text = "Elegir sala"
-        app.textos_botones["hora"].text = "Elegir hora"
+        app.textos_botones["hora_inicio"].text = "Elegir hora de inicio"
+        app.textos_botones["hora_termino"].text = "Elegir hora de termino"
         app.textos_botones["motivo"].text = "Motivo de la reserva"
         app.textos_botones["acompanantes"].text = "Acompañantes: 0"
+        
 
         # Reiniciar fecha
         self.texto_fecha.text = "Fecha no seleccionada"

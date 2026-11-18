@@ -1,1 +1,44 @@
-[]
+[
+    {
+        "nombre": "c",
+        "correo": "a@.cl",
+        "sala": "Sala de piano",
+        "dia": "18/11/2026",
+        "hora_inicio": "10:00",
+        "hora_termino": "16:00",
+        "motivo": "Estudio",
+        "acompanantes": 2,
+        "codigo_acceso": 186906,
+        "fecha_registro": "18/11/2026 15:59:09",
+        "estado": "Cancelada",
+        "usuario_correo": "pipe@.cl"
+    },
+    {
+        "nombre": "sad",
+        "correo": "s@.cl",
+        "sala": "Sala de piano",
+        "dia": "18/11/2026",
+        "hora_inicio": "15:00",
+        "hora_termino": "17:00",
+        "motivo": "Estudio",
+        "acompanantes": 3,
+        "codigo_acceso": 379044,
+        "fecha_registro": "18/11/2026 16:03:48",
+        "estado": "Cancelada",
+        "usuario_correo": "pipe@.cl"
+    },
+    {
+        "nombre": "sdf",
+        "correo": "p@.cl",
+        "sala": "Sala de piano",
+        "dia": "18/11/2026",
+        "hora_inicio": "14:00",
+        "hora_termino": "13:00",
+        "motivo": "Estudio",
+        "acompanantes": 2,
+        "codigo_acceso": 691392,
+        "fecha_registro": "18/11/2026 16:04:39",
+        "estado": "Cancelada",
+        "usuario_correo": "pipe@.cl"
+    }
+]
