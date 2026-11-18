@@ -4,6 +4,7 @@ from kivymd.uix.label import MDLabel
 from kivymd.uix.screen import MDScreen
 
 from views.admin.barra_admin import PanelAdmin
+from views.admin.reservas_admin import ReservasAdminView
 from views.admin.sidebar import Sidebar
 
 
@@ -22,7 +23,7 @@ class AdminDashboardView(MDScreen):
         super().__init__(**kwargs)
         contenido = ScreenManager()
         contenido.add_widget(PanelAdmin(repositorio=repositorio, name="calendario"))  # primera = pantalla inicial
-        contenido.add_widget(Pendiente("Lista de reservas", name="reservas"))
+        contenido.add_widget(ReservasAdminView(repositorio=repositorio, name="reservas"))
         contenido.add_widget(Pendiente("Perfil", name="perfil"))
 
         sidebar = Sidebar(contenido, [
