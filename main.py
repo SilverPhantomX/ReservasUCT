@@ -30,7 +30,7 @@ class MiApp(MDApp):
                 break
         
         self.seleccion = {"sala": None, "dia": None, "hora_inicio": None, "hora_termino": None, "motivo": None, "acompanantes": 0}
-        self.textos_botones = {}        
+        self.textos_botones = {}   
 
         #administra las pantallas
         sm = MDScreenManager()

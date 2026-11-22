@@ -1,7 +1,7 @@
 import json
 import os
 
-ARCHIVO_SESION = "sesion.json"
+ARCHIVO_SESION = "data/sesion.json"
 
 
 def guardar_sesion(usuario):

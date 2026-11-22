@@ -1,4 +1,5 @@
 from kivy.metrics import dp
+from kivy.app import App
 from kivy.utils import get_color_from_hex
 from kivymd.uix.anchorlayout import MDAnchorLayout
 from kivymd.uix.boxlayout import MDBoxLayout
@@ -35,8 +36,16 @@ class BarraNavegacion(MDBoxLayout):
         self.marcar()
 
     def marcar(self, *args):
-        activa = PESTANA_DE.get(self.sm.current)
-        for destino, (w_icono, w_texto) in self.items.items():
-            color = ACTIVO if destino == activa else INACTIVO
-            w_icono.text_color = color
-            w_texto.text_color = color
+            app = App.get_running_app()
+            hay_sesion = getattr(app, "usuario_actual", None) is not None
+    
+            # Sin sesión, la barra se oculta y no se puede tocar
+            self.opacity = 1 if hay_sesion else 0
+            self.disabled = not hay_sesion
+            self.height = dp(70) if hay_sesion else 0
+    
+            activa = PESTANA_DE.get(self.sm.current)
+            for destino, (w_icono, w_texto) in self.items.items():
+                color = ACTIVO if destino == activa else INACTIVO
+                w_icono.text_color = color
+                w_texto.text_color = color

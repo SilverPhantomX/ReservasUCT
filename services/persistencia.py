@@ -1,7 +1,7 @@
 import json
 import os
 
-ARCHIVO_RESERVAS = "reserva/reservas.json"
+ARCHIVO_RESERVAS = "data/reservas.json"
 
 
 def guardar_reservas(reservas):

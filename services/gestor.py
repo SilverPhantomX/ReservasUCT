@@ -71,16 +71,28 @@ class GestorReservas:
             if not repetido:
                 return codigo  
             
+    def horas_ocupadas(self, dia, sala):
+        # Todas las horas (bloques de 1 h) ya tomadas ese día en esa sala
+        ocupadas = set()
+        for r in self.reservas:
+            if r.dia == dia and r.sala == sala and r.estado != "Cancelada":
+                ocupadas.update(h for h in HORAS if r.hora_inicio <= h < r.hora_termino)
+        return ocupadas
+            
     def obtener_horas_disponibles(self, dia, sala):
-        horas_ocupadas = []
-
-        for reserva in self.reservas:
-            if (reserva.dia == dia and reserva.sala == sala and reserva.estado != "Cancelada"
-                ):
-                horas_ocupadas.append(reserva.hora_inicio)
-
-        return [
-            hora for hora in HORAS
-            if hora not in horas_ocupadas
-        ]
+        # Horas en que se puede EMPEZAR. La última de HORAS (21:00) es solo el cierre.
+        ocupadas = self.horas_ocupadas(dia, sala)
         
+        return [h for h in HORAS[:-1] if h not in ocupadas]
+        
+    def obtener_horas_termino(self, dia, sala, hora_inicio):
+        # Horas de término posibles: hasta la siguiente reserva (pegadas se permiten)
+        ocupadas = self.horas_ocupadas(dia, sala)
+        opciones = []
+        for h in HORAS:
+            if h <= hora_inicio:
+                continue
+            opciones.append(h)
+            if h in ocupadas:      # desde aquí ya hay otra reserva: no se puede pasar
+                break
+        return opciones

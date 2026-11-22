@@ -1,7 +1,7 @@
 import json
 import os
 
-ARCHIVO_USUARIOS = "usuarios.json"
+ARCHIVO_USUARIOS = "data/usuarios.json"
 
 
 def guardar_usuarios(usuarios):

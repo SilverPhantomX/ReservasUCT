@@ -12,7 +12,7 @@ class AdminPCApp(MDApp):
     def build(self):
         self.title = "Reservas UCT - Dashboard Administrador"
         # Origen de datos del panel. Cuando exista SQL, solo se cambia esta línea.
-        self.repositorio = RepositorioAdminJSON("datos_admin/reservas.json")
+        self.repositorio = RepositorioAdminJSON("datos/reservas.json")
 
         sm = ScreenManager()
         sm.add_widget(AdminDashboardView(repositorio=self.repositorio, name="dashboard"))

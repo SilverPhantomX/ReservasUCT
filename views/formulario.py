@@ -39,13 +39,13 @@ class FormularioScreen(MDScreen):
                 "center_y": 0.5
             }
         )
-
+    
         self.boton_fecha = MDButton(
             self.texto_fecha,
             style="outlined",
             theme_width="Custom",
             size_hint_x=1,
-            disabled=True
+            on_release = self.ir_a_calendario
         )
 
         formulario.add_widget(self.boton_fecha)
@@ -97,7 +97,7 @@ class FormularioScreen(MDScreen):
         barra = MDBoxLayout(size_hint_y=None, height=dp(70), md_bg_color=AZUL)
         barra.add_widget(MDLabel(text=texto, halign="center", bold=True, theme_text_color="Custom", text_color=(1, 1, 1, 1)))
         return barra
-
+    
     def crear_boton(self, texto, color, accion):
         return MDButton(
             MDButtonText(text=texto, theme_text_color="Custom", text_color=(1, 1, 1, 1), pos_hint={"center_x": 0.5,"center_y": 0.5}),
@@ -112,43 +112,41 @@ class FormularioScreen(MDScreen):
         return boton
     
     def abrir_menu(self, boton, campo, opciones):
-        
         app = MDApp.get_running_app()
 
         if campo in ["hora_inicio", "hora_termino"]:
-        
             if app.seleccion["dia"] is None:
-                self.mostrar_dialogo(
-                    "Fecha requerida",
-                    "Primero debes seleccionar una fecha.",
-                    [("ENTENDIDO", self.cerrar_dialog)]
-                )
+                self.mostrar_dialogo("Fecha requerida", "Primero debes seleccionar una fecha.",
+                                     [("ENTENDIDO", self.cerrar_dialog)])
                 return
-
             if app.seleccion["sala"] is None:
-                self.mostrar_dialogo(
-                    "Sala requerida",
-                    "Primero debes seleccionar una sala.",
-                    [("ENTENDIDO", self.cerrar_dialog)]
-                )
+                self.mostrar_dialogo("Sala requerida", "Primero debes seleccionar una sala.",
+                                     [("ENTENDIDO", self.cerrar_dialog)])
                 return
 
-            opciones = app.gestor.obtener_horas_disponibles(
-                app.seleccion["dia"],
-                app.seleccion["sala"]
-            )
+            dia, sala = app.seleccion["dia"], app.seleccion["sala"]
 
-            if not opciones:
-                self.mostrar_dialogo(
-                    "Sin disponibilidad",
-                    "No quedan horas disponibles para esta sala.",
-                    [("ENTENDIDO", self.cerrar_dialog)]
-                )
-                return
+            if campo == "hora_inicio":
+                opciones = app.gestor.obtener_horas_disponibles(dia, sala)
+                if not opciones:
+                    self.mostrar_dialogo("Sin disponibilidad", "No quedan horas disponibles para esta sala.",
+                                         [("ENTENDIDO", self.cerrar_dialog)])
+                    return
+            else:
+                if app.seleccion["hora_inicio"] is None:
+                    self.mostrar_dialogo("Hora de inicio requerida", "Primero debes elegir la hora de inicio.",
+                                         [("ENTENDIDO", self.cerrar_dialog)])
+                    return
+                opciones = app.gestor.obtener_horas_termino(dia, sala, app.seleccion["hora_inicio"])
+
         items = [{"text": str(opcion), "on_release": lambda opcion=opcion: self.elegir(campo, opcion)} for opcion in opciones]
         self.menu = MDDropdownMenu(caller=boton, items=items)
         self.menu.open()
 
+    def ir_a_calendario(self, *args):
+            # No se limpia el formulario, para conservar lo que ya escribiste al volver
+            self.manager.current = "calendario"
+    
     def elegir(self, campo, opcion):
         
         app = MDApp.get_running_app()

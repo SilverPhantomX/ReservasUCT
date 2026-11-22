@@ -7,13 +7,12 @@ import random
 import datetime
 from datetime import datetime
 
-SALAS = ["Sala de piano", "Sala de teoria musical", "Auditorio", "Sala de percusión"]
+SALAS = ["Sala de piano", "Sala de teoria músical", "Auditorio", "Sala de percusión"]
 DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
-HORAS = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"]
 HORAS = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"]
 MOTIVOS = ["Estudio", "Ensayo"]
 MAX_ACOMPANANTES = 3
-ESTADOS = ["Pendiente", "Confirmada", "Cancelada", "Finalizada"]
+ESTADOS = ["Pendiente", "Confirmada", "Anulada", "Finalizada"]
 
 #Clase reserva :)
 class Reserva:
@@ -73,17 +72,24 @@ class Reserva:
             errores.append("Debe elegir un motivo.")
         if self.acompanantes > MAX_ACOMPANANTES:
             errores.append(f"Máximo {MAX_ACOMPANANTES} acompañantes.")
+        if (self.hora_inicio is not None and self.hora_termino is not None and self.hora_termino <= self.hora_inicio):
+            errores.append("La hora de término debe ser posterior a la hora de inicio.")
         return errores
 
     #funcion para ver si una reserva choca con otra
     def choca_con(self, otra):
-        #True si las dos reservas piden la misma sala, el mismo día y a la misma hora.
-        return self.sala == otra.sala and self.dia == otra.dia and self.hora_inicio == otra.hora_inicio
+        # True si piden la misma sala y día y los rangos se pisan.
+        if None in (self.hora_inicio, self.hora_termino, otra.hora_inicio, otra.hora_termino):
+            return False
+        return (self.sala == otra.sala and self.dia == otra.dia and self.hora_inicio < otra.hora_termino and otra.hora_inicio < self.hora_termino)
 
     #funcion para obtener el resumen del la reserva
     def resumen(self):
         return (f"Registrado el: {self.fecha_registro}\n"
-                f"{self.nombre}\n{self.sala}\n{self.dia} a las {self.hora_inicio} hasta las {self.hora_termino}\n"
-                f"Motivo: {self.motivo} - Acompañantes: {self.acompanantes}\n"
-                f"Codigo de acceso:{self.codigo_acceso}\n"
+                f"Sala: {self.sala}\n"
+                f"Día: {self.dia}\n" 
+                f"Horario: De {self.hora_inicio}hs a {self.hora_termino}hs\n"
+                f"Motivo: {self.motivo}\n"
+                f"Acompañantes: {self.acompanantes}\n"
+                f"Codigo de acceso: {self.codigo_acceso}\n"
                 f"Estado: {self.estado}\n")

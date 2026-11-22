@@ -21,7 +21,7 @@ class RepositorioAdmin:
 
 
 class RepositorioAdminJSON(RepositorioAdmin):
-    def __init__(self, ruta="datos_admin/reservas.json"):
+    def __init__(self, ruta="datos/reservas.json"):
         self.ruta = ruta
 
     def listar(self):

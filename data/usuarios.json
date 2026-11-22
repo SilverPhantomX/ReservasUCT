@@ -1,0 +1,16 @@
+[
+    {
+        "nombre": "a",
+        "correo": "aaa@.cl",
+        "contrasena": "123456",
+        "rol": "Estudiante",
+        "fecha_registro": "18/11/2026 15:44:28"
+    },
+    {
+        "nombre": "christopher",
+        "correo": "sss@.cl",
+        "contrasena": "admin1",
+        "rol": "Estudiante",
+        "fecha_registro": "22/11/2026 18:23:32"
+    }
+]
