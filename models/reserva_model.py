@@ -83,11 +83,21 @@ class Reserva:
 
     #funcion para ver si una reserva choca con otra
     def choca_con(self, otra):
-        # True si piden la misma sala y día y los rangos se pisan.
-        if None in (self.hora_inicio, self.hora_termino, otra.hora_inicio, otra.hora_termino):
+        if self.sala != otra.sala:
             return False
-        return (self.sala == otra.sala and self.dia == otra.dia and self.hora_inicio < otra.hora_termino and otra.hora_inicio < self.hora_termino)
-
+    
+        if self.dia != otra.dia:
+            return False
+    
+        if otra.estado == "Cancelada":
+            return False
+    
+        return (
+            self.hora_inicio < otra.hora_termino
+            and self.hora_termino > otra.hora_inicio
+        )
+    
+    
     #funcion para obtener el resumen del la reserva
     def resumen(self):
         return (f"Registrado el: {self.fecha_registro}\n"

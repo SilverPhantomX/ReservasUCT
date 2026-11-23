@@ -114,33 +114,74 @@ class FormularioScreen(MDScreen):
     def abrir_menu(self, boton, campo, opciones):
         app = MDApp.get_running_app()
 
+        # Si quiere elegir una hora, primero debe existir fecha y sala
         if campo in ["hora_inicio", "hora_termino"]:
+
             if app.seleccion["dia"] is None:
-                self.mostrar_dialogo("Fecha requerida", "Primero debes seleccionar una fecha.",
-                                     [("ENTENDIDO", self.cerrar_dialog)])
+                self.mostrar_dialogo(
+                    "Fecha requerida",
+                    "Primero debes seleccionar una fecha.",
+                    [("ENTENDIDO", self.cerrar_dialog)]
+                )
                 return
+
             if app.seleccion["sala"] is None:
-                self.mostrar_dialogo("Sala requerida", "Primero debes seleccionar una sala.",
-                                     [("ENTENDIDO", self.cerrar_dialog)])
+                self.mostrar_dialogo(
+                    "Sala requerida",
+                    "Primero debes seleccionar una sala.",
+                    [("ENTENDIDO", self.cerrar_dialog)]
+                )
                 return
 
-            dia, sala = app.seleccion["dia"], app.seleccion["sala"]
+            dia = app.seleccion["dia"]
+            sala = app.seleccion["sala"]
 
+            # Solo muestra horas de inicio libres
             if campo == "hora_inicio":
-                opciones = app.gestor.obtener_horas_disponibles(dia, sala)
-                if not opciones:
-                    self.mostrar_dialogo("Sin disponibilidad", "No quedan horas disponibles para esta sala.",
-                                         [("ENTENDIDO", self.cerrar_dialog)])
-                    return
-            else:
-                if app.seleccion["hora_inicio"] is None:
-                    self.mostrar_dialogo("Hora de inicio requerida", "Primero debes elegir la hora de inicio.",
-                                         [("ENTENDIDO", self.cerrar_dialog)])
-                    return
-                opciones = app.gestor.obtener_horas_termino(dia, sala, app.seleccion["hora_inicio"])
+                opciones = app.gestor.obtener_horas_disponibles(
+                    dia,
+                    sala
+                )
 
-        items = [{"text": str(opcion), "on_release": lambda opcion=opcion: self.elegir(campo, opcion)} for opcion in opciones]
-        self.menu = MDDropdownMenu(caller=boton, items=items)
+                if not opciones:
+                    self.mostrar_dialogo(
+                        "Sin disponibilidad",
+                        "No quedan horas disponibles para esta sala.",
+                        [("ENTENDIDO", self.cerrar_dialog)]
+                    )
+                    return
+
+            # La hora de término depende de la hora de inicio
+            elif campo == "hora_termino":
+            
+                if app.seleccion["hora_inicio"] is None:
+                    self.mostrar_dialogo(
+                        "Hora de inicio requerida",
+                        "Primero debes elegir la hora de inicio.",
+                        [("ENTENDIDO", self.cerrar_dialog)]
+                    )
+                    return
+    
+                opciones = app.gestor.obtener_horas_termino(
+                    dia,
+                    sala,
+                    app.seleccion["hora_inicio"]
+                )
+    
+        items = [
+            {
+                "text": str(opcion),
+                "on_release": lambda opcion=opcion:
+                    self.elegir(campo, opcion)
+            }
+            for opcion in opciones
+        ]
+    
+        self.menu = MDDropdownMenu(
+            caller=boton,
+            items=items
+        )
+    
         self.menu.open()
 
     def ir_a_calendario(self, *args):
@@ -164,6 +205,9 @@ class FormularioScreen(MDScreen):
         else:        
             app.textos_botones[campo].text = str(opcion)
         self.menu.dismiss()
+        if campo == "hora_inicio":
+            app.seleccion["hora_termino"] = None
+            app.textos_botones["hora_termino"].text = "Elegir hora de termino"
             
     def mostrar_dialogo(self, titulo, texto, botones):
         contenedor = MDDialogButtonContainer(spacing="8dp")

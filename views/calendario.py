@@ -192,8 +192,8 @@ class Calendario(MDScreen):
         self.anio_seleccionado = self.anio_actual
         # La mostramos en consola por ahora self.calendario
         fecha= (
-            f"{self.dia_seleccionado}/"
-            f"{self.mes_seleccionado}/"
+            f"{self.dia_seleccionado:02d}/"
+            f"{self.mes_seleccionado:02d}/"
             f"{self.anio_seleccionado}"
         )
         print (f"Fecha selecionada: {fecha}")
