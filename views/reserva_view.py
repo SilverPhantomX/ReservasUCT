@@ -33,6 +33,9 @@ class ReservaScreen(MDScreen):
         self.add_widget(caja)
         
     def on_enter(self, *args):
+        app = MDApp.get_running_app()
+    
+        app.gestor.actualizar_estados()
         self.actualizar_lista()
     
     def crear_titulo(self, texto):
@@ -45,21 +48,79 @@ class ReservaScreen(MDScreen):
             MDButtonText(text=texto, theme_text_color="Custom",  text_color=(1, 1, 1, 1), pos_hint={"center_x": 0.5,"center_y": 0.5}),
             style="filled", theme_bg_color="Custom", md_bg_color=color, theme_width="Custom", size_hint_x=1, on_release=accion
         )
-
+        
     def actualizar_lista(self):
         app = MDApp.get_running_app()
+    
         self.lista.clear_widgets()
-        if not app.gestor.reservas:        
-            self.lista.add_widget(MDLabel(text="Aún no tienes reservas.", adaptive_height=True))
-            return
-        for reserva in app.gestor.reservas:   
-            if (app.usuario_actual.rol == "Estudiante" and reserva.usuario_correo != app.usuario_actual.correo
-                ):  
-                continue   
-            self.lista.add_widget(MDLabel(text=reserva.resumen(), adaptive_height=True))
-            if reserva.estado in ["Pendiente", "Confirmada"]:
-                self.lista.add_widget(self.crear_boton("ANULAR", GUINDA, lambda x, r=reserva: self.preguntar_anular(r)))
-            
+    
+        activas, historial = app.gestor.separar_reservas(
+            app.usuario_actual
+        )
+    
+        # ---------------------------
+        # PRÓXIMAS RESERVAS
+        # ---------------------------
+        self.lista.add_widget(
+            MDLabel(
+                text="PRÓXIMAS RESERVAS",
+                bold=True,
+                adaptive_height=True
+            )
+        )
+    
+        if not activas:
+            self.lista.add_widget(
+                MDLabel(
+                    text="No tienes reservas próximas.",
+                    adaptive_height=True
+                )
+            )
+    
+        for reserva in activas:
+            self.lista.add_widget(
+                MDLabel(
+                    text=reserva.resumen(),
+                    adaptive_height=True
+                )
+            )
+    
+            self.lista.add_widget(
+                self.crear_boton(
+                    "ANULAR",
+                    GUINDA,
+                    lambda x, r=reserva: self.preguntar_anular(r)
+                )
+            )
+    
+        # ---------------------------
+        # HISTORIAL
+        # ---------------------------
+        self.lista.add_widget(
+            MDLabel(
+                text="HISTORIAL",
+                bold=True,
+                adaptive_height=True
+            )
+        )
+    
+        if not historial:
+            self.lista.add_widget(
+                MDLabel(
+                    text="No tienes reservas en el historial.",
+                    adaptive_height=True
+                )
+            )
+    
+        for reserva in historial:
+            self.lista.add_widget(
+                MDLabel(
+                    text=reserva.resumen(),
+                    adaptive_height=True
+                )
+            )
+    
+              
     def mostrar_dialogo(self, titulo, texto, botones):
         contenedor = MDDialogButtonContainer(spacing="8dp")
         for texto_boton, funcion in botones:

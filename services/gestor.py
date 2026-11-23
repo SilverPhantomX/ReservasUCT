@@ -2,6 +2,7 @@ from services.persistencia import guardar_reservas
 from services.persistencia import cargar_reservas
 from models.reserva_model import Reserva ,HORAS, ESTADOS
 import random
+from datetime import datetime
 
 #Administra todas las reservas de la academia
 class GestorReservas:
@@ -127,3 +128,39 @@ class GestorReservas:
                 if reserva.estado == estado
             )
         return resumen
+    
+    def actualizar_estados(self):
+        ahora = datetime.now()
+
+        for reserva in self.reservas:
+
+            if reserva.estado not in ["Pendiente", "Confirmada"]:
+                continue
+
+            try:
+                fecha_hora_fin = datetime.strptime(
+                    f"{reserva.dia} {reserva.hora_termino}",
+                    "%d/%m/%Y %H:%M"
+                )
+
+                if fecha_hora_fin < ahora:
+                    reserva.estado = "Finalizada"
+
+            except ValueError:
+                continue
+
+        guardar_reservas(self.reservas)
+        
+    def separar_reservas(self, usuario):
+        reservas = self.reservas_de(usuario)
+    
+        activas = []
+        historial = []
+    
+        for reserva in reservas:
+            if reserva.estado in ["Pendiente", "Confirmada"]:
+                activas.append(reserva)
+            else:
+                historial.append(reserva)
+    
+        return activas, historial

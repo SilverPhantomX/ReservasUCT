@@ -57,3 +57,6 @@ class Usuario:
             "rol": self.rol,
             "fecha_registro": self.fecha_registro
         }
+        
+    def es_administrador(self):
+        return self.rol == "Administrador"
