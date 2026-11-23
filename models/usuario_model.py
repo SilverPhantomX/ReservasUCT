@@ -12,11 +12,24 @@ class Usuario:
         rol="Estudiante"
     ):
         self.nombre = nombre.strip()
-        self.correo = correo.strip()
+        self.correo = correo.strip().lower()
         self.contrasena = contrasena
         self.rol = rol
         self.fecha_registro = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
+        @classmethod
+        def desde_dict(cls, datos):
+            # Inverso de to_dict(): reconstruye el usuario guardado en el JSON
+            usuario = cls(datos["nombre"], datos["correo"], datos["contrasena"], datos.get("rol", "Estudiante"))
+            usuario.fecha_registro = datos.get("fecha_registro", usuario.fecha_registro)
+            return usuario
+        
+        def verificar_contrasena(self, contrasena):
+            return self.contrasena == contrasena
+        
+        def es_administrador(self):
+            return self.rol == "Administrador"
+    
     def validar(self):
         errores = []
 

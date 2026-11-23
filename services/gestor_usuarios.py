@@ -23,6 +23,16 @@ class GestorUsuarios:
             usuario.fecha_registro = dato["fecha_registro"]
 
             self.usuarios.append(usuario)
+    
+    def buscar_por_correo(self, correo):
+        #Devuelve el usuario con ese correo, o None si no existe.
+        correo = correo.strip().lower()
+
+        for usuario in self.usuarios:
+            if usuario.correo == correo:
+                return usuario
+
+        return None
 
 
     def agregar(self, usuario):
@@ -37,3 +47,15 @@ class GestorUsuarios:
             guardar_usuarios(self.usuarios)
 
         return errores
+
+    def autenticar(self, correo, contrasena):
+        #Devuelve (usuario, errores). Si hay errores, usuario es None.
+        if correo.strip() == "" or contrasena == "":
+            return None, ["Debe ingresar su correo y contraseña."]
+
+        usuario = self.buscar_por_correo(correo)
+
+        if usuario is None or not usuario.verificar_contrasena(contrasena):
+            return None, ["Correo o contraseña incorrectos."]
+
+        return usuario, []

@@ -1,7 +1,6 @@
 from services.persistencia import guardar_reservas
-from models.reserva_model import Reserva
 from services.persistencia import cargar_reservas
-from models.reserva_model import HORAS
+from models.reserva_model import Reserva ,HORAS, ESTADOS
 import random
 
 #Administra todas las reservas de la academia
@@ -96,3 +95,35 @@ class GestorReservas:
             if h in ocupadas:      # desde aquí ya hay otra reserva: no se puede pasar
                 break
         return opciones
+    
+    def reservas_activas(self):
+        return [reserva for reserva in self.reservas
+            if reserva.esta_activa()
+        ]
+        
+    def reservas_de(self, usuario):
+
+        if usuario is None:
+            return []
+
+        if usuario.es_administrador():
+            return self.reservas
+
+        return [
+            reserva
+            for reserva in self.reservas
+            if reserva.usuario_correo == usuario.correo
+        ]
+        
+    def resumen_de(self, usuario):
+        
+        reservas = self.reservas_de(usuario)
+        resumen = {
+            "total": len(reservas)
+        }
+        for estado in ESTADOS:
+            resumen[estado] = sum(
+                1 for reserva in reservas
+                if reserva.estado == estado
+            )
+        return resumen

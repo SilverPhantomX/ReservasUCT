@@ -10,9 +10,14 @@ from datetime import datetime
 SALAS = ["Sala de piano", "Sala de teoria músical", "Auditorio", "Sala de percusión"]
 DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
 HORAS = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"]
+HORAS_INICIO = HORAS[:-1]
+HORAS_TERMINO = HORAS[1:]
 MOTIVOS = ["Estudio", "Ensayo"]
 MAX_ACOMPANANTES = 3
 ESTADOS = ["Pendiente", "Confirmada", "Anulada", "Finalizada"]
+ESTADOS_ACTIVOS = ["Pendiente", "Confirmada"]
+
+
 
 #Clase reserva :)
 class Reserva:
@@ -93,3 +98,9 @@ class Reserva:
                 f"Acompañantes: {self.acompanantes}\n"
                 f"Codigo de acceso: {self.codigo_acceso}\n"
                 f"Estado: {self.estado}\n")
+        
+    def esta_activa(self):
+        return self.estado in ESTADOS_ACTIVOS
+    
+    def ocupa_bloque(self, hora):
+        return self.hora_inicio <= hora < self.hora_termino
