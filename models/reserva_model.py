@@ -14,7 +14,7 @@ HORAS_INICIO = HORAS[:-1]
 HORAS_TERMINO = HORAS[1:]
 MOTIVOS = ["Estudio", "Ensayo"]
 MAX_ACOMPANANTES = 3
-ESTADOS = ["Pendiente", "Confirmada", "Anulada", "Finalizada"]
+ESTADOS = ["Pendiente", "Confirmada", "Cancelada", "Finalizada"]
 ESTADOS_ACTIVOS = ["Pendiente", "Confirmada"]
 
 

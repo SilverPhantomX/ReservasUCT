@@ -9,9 +9,33 @@ from kivy.metrics import dp
 from kivy.utils import get_color_from_hex
 from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.anchorlayout import MDAnchorLayout
+from views.componentes import (
+    banner,
+    tarjeta,
+    fila_icono,
+    chip,
+    estado_vacio,
+    boton_contorno
+)
+
+from views.estilos import (
+    AZUL,
+    AZUL_SUAVE,
+    GRIS_SUAVE,
+    GRIS_TEXTO,
+    GUINDA,
+    VERDE
+)
 
 AZUL = get_color_from_hex("#01568e")
 GUINDA = get_color_from_hex("#7B1D35")
+
+COLOR_ESTADO = {
+    "Pendiente": AZUL,
+    "Confirmada": VERDE,
+    "Cancelada": GUINDA,
+    "Finalizada": GRIS_TEXTO
+}
 
 class ReservaScreen(MDScreen):
     def __init__(self, **kwargs):
@@ -58,14 +82,20 @@ class ReservaScreen(MDScreen):
             app.usuario_actual
         )
     
-        # ---------------------------
-        # PRÓXIMAS RESERVAS
-        # ---------------------------
+        if not activas and not historial:
+            self.lista.add_widget(
+                estado_vacio(
+                    "calendar-blank-outline",
+                    "Aún no tienes reservas",
+                    "Crea una nueva reserva desde el calendario."
+                )
+            )
+            return
+    
+        # Próximas reservas
         self.lista.add_widget(
-            MDLabel(
-                text="PRÓXIMAS RESERVAS",
-                bold=True,
-                adaptive_height=True
+            self.titulo_seccion(
+                f"Próximas ({len(activas)})"
             )
         )
     
@@ -73,52 +103,29 @@ class ReservaScreen(MDScreen):
             self.lista.add_widget(
                 MDLabel(
                     text="No tienes reservas próximas.",
-                    adaptive_height=True
+                    adaptive_height=True,
+                    theme_text_color="Custom",
+                    text_color=GRIS_TEXTO
                 )
             )
     
         for reserva in activas:
             self.lista.add_widget(
-                MDLabel(
-                    text=reserva.resumen(),
-                    adaptive_height=True
-                )
+                self.tarjeta_reserva(reserva)
             )
     
+        # Historial
+        if historial:
             self.lista.add_widget(
-                self.crear_boton(
-                    "ANULAR",
-                    GUINDA,
-                    lambda x, r=reserva: self.preguntar_anular(r)
+                self.titulo_seccion(
+                    f"Historial ({len(historial)})"
                 )
             )
     
-        # ---------------------------
-        # HISTORIAL
-        # ---------------------------
-        self.lista.add_widget(
-            MDLabel(
-                text="HISTORIAL",
-                bold=True,
-                adaptive_height=True
-            )
-        )
-    
-        if not historial:
-            self.lista.add_widget(
-                MDLabel(
-                    text="No tienes reservas en el historial.",
-                    adaptive_height=True
+            for reserva in historial:
+                self.lista.add_widget(
+                    self.tarjeta_reserva(reserva)
                 )
-            )
-    
-        for reserva in historial:
-            self.lista.add_widget(
-                MDLabel(
-                    text=reserva.resumen(),
-                    adaptive_height=True
-                )
-            )
     
               
     def mostrar_dialogo(self, titulo, texto, botones):
@@ -143,3 +150,79 @@ class ReservaScreen(MDScreen):
 
     def ir_a_formulario(self, *args):    
         self.manager.current = "formulario"
+        
+    def titulo_seccion(self, texto):
+        return MDLabel(
+            text=texto,
+            bold=True,
+            adaptive_height=True,
+            theme_text_color="Custom",
+            text_color=AZUL
+        )
+        
+    def tarjeta_reserva(self, reserva):
+        activa = reserva.estado in ["Pendiente", "Confirmada"]
+
+        cabecera = MDBoxLayout(
+            adaptive_height=True,
+            spacing=dp(8)
+        )
+
+        cabecera.add_widget(
+            MDLabel(
+                text=reserva.sala,
+                bold=True,
+                adaptive_height=True
+            )
+        )
+
+        cabecera.add_widget(
+            chip(
+                reserva.estado,
+                COLOR_ESTADO.get(
+                    reserva.estado,
+                    GRIS_TEXTO
+                )
+            )
+        )
+
+        partes = [
+            cabecera,
+
+            fila_icono(
+                "calendar-outline",
+                reserva.dia
+            ),
+
+            fila_icono(
+                "clock-outline",
+                f"{reserva.hora_inicio} - {reserva.hora_termino}"
+            ),
+
+            fila_icono(
+                "music-note-outline",
+                reserva.motivo
+            )
+        ]
+
+        if activa:
+            partes.append(
+                fila_icono(
+                    "key-outline",
+                    f"Código de acceso: {reserva.codigo_acceso}"
+                )
+            )
+
+            partes.append(
+                boton_contorno(
+                    "ANULAR",
+                    GUINDA,
+                    lambda x, r=reserva: self.preguntar_anular(r),
+                    icono="close"
+                )
+            )
+
+        return tarjeta(
+            *partes,
+            color=AZUL_SUAVE if activa else GRIS_SUAVE
+        )
