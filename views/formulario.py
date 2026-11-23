@@ -13,6 +13,8 @@ from kivymd.uix.anchorlayout import MDAnchorLayout
 from models.reserva_model import (SALAS, DIAS, HORAS, MOTIVOS, MAX_ACOMPANANTES)
 from kivy.utils import get_color_from_hex
 from models.reserva_model import Reserva
+from services.analytics_service import registrar_evento
+from services.remote_config import obtener_texto_confirmacion
 
 AZUL = get_color_from_hex("#01568e")
 GUINDA = get_color_from_hex("#7B1D35")
@@ -54,7 +56,7 @@ class FormularioScreen(MDScreen):
         formulario.add_widget(self.crear_boton_menu("motivo", "Motivo de la reserva", MOTIVOS))
         formulario.add_widget(self.crear_boton_menu("acompanantes", "Acompañantes: 0", list(range(MAX_ACOMPANANTES + 1))))
         
-        formulario.add_widget(self.crear_boton("CONFIRMAR RESERVA", GUINDA, self.confirmar_reserva))
+        formulario.add_widget(self.crear_boton(obtener_texto_confirmacion(), GUINDA,self.confirmar_reserva))
         formulario.add_widget(self.crear_boton("VER MIS RESERVAS", AZUL, self.ir_a_reservas))
         
         navegacion = MDBoxLayout(size_hint_y=None, height=dp(70), md_bg_color=AZUL)
@@ -151,7 +153,7 @@ class FormularioScreen(MDScreen):
                     )
                     return
 
-            # La hora de término depende de la hora de inicio
+            # La hora de término depende de la hora de inicio self.crear_boton
             elif campo == "hora_termino":
             
                 if app.seleccion["hora_inicio"] is None:
@@ -240,6 +242,14 @@ class FormularioScreen(MDScreen):
         if errores:
             self.mostrar_dialogo("No se pudo reservar", "\n".join(errores), [( "ENTENDIDO", self.cerrar_dialog)])
         else:
+            registrar_evento("reserva_confirmada",
+                    {
+                    "sala": self.reserva_nueva.sala,
+                    "dia": self.reserva_nueva.dia,
+                    "hora_inicio": self.reserva_nueva.hora_inicio,
+                    "hora_termino": self.reserva_nueva.hora_termino
+                    })
+
             self.limpiar_formulario()
             self.ir_a_reservas()
 

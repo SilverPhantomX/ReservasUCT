@@ -12,6 +12,7 @@ from kivymd.uix.dialog import MDDialog, MDDialogButtonContainer, MDDialogHeadlin
 from kivy.utils import get_color_from_hex
 from kivymd.uix.textfield import MDTextField, MDTextFieldHintText
 from services.persistencia_sesion import guardar_sesion
+from services.analytics_service import registrar_evento
 
 AZUL = get_color_from_hex("#01568e")
 GUINDA = get_color_from_hex("#7B1D35")
@@ -102,6 +103,8 @@ class LoginScreen(Screen):
             
     def iniciar_sesion(self, *args):
         app = MDApp.get_running_app()
+        
+        
 
         correo = self.campo_correo.text.strip()
         contrasena = self.campo_contrasena.text
@@ -111,13 +114,15 @@ class LoginScreen(Screen):
             if (usuario.correo == correo and usuario.contrasena == contrasena):
                 
                 app.usuario_actual = usuario
+                registrar_evento("login_exitoso", {"correo": usuario.correo, "rol": usuario.rol})
+                
                 guardar_sesion(usuario)
 
                 print(f"Sesión iniciada: {usuario.nombre}")
                 self.manager.current = "calendario"
-                
                 return
-
+            
+        registrar_evento( "login_fallido", {"correo": correo})
         self.mostrar_dialogo("Error", "Correo o contraseña incorrectos.")
         
     def mostrar_dialogo(self, titulo, texto):

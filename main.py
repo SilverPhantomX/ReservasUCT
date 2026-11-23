@@ -3,7 +3,7 @@ from kivy.core.window import Window
 from kivymd.uix.screenmanager import MDScreenManager
 from services.gestor import GestorReservas
 from kivymd.uix.boxlayout import MDBoxLayout
-
+from services.analytics_service import registrar_evento
 from views.barra_navegacion import BarraNavegacion
 from views.calendario import Calendario
 from views.formulario import FormularioScreen
@@ -18,6 +18,8 @@ Window.size = (400, 600)
 
 class MiApp(MDApp):
     def build(self):
+        
+        registrar_evento("app_abierta")
         Window.clearcolor = (1, 1, 1, 1)
         self.gestor = GestorReservas()
         self.gestor_usuarios = GestorUsuarios()

@@ -9,6 +9,7 @@ from datetime import datetime
 import calendar
 from kivy.utils import get_color_from_hex
 from kivymd.uix.anchorlayout import MDAnchorLayout
+from services.remote_config import obtener_guia_reserva
 
 AZUL = get_color_from_hex("#01568e")
 GUINDA = get_color_from_hex("#7B1D35")
@@ -26,7 +27,11 @@ class Calendario(MDScreen):
         principal = MDBoxLayout(orientation="vertical") #layout de la app
         
         #banner de la app
-        banner = MDBoxLayout(size_hint_y=None, height=dp(70), md_bg_color= AZUL)     
+        banner = MDBoxLayout(size_hint_y=None, height=dp(70), md_bg_color= AZUL)
+        # Guía A/B
+        guia = obtener_guia_reserva()
+        if guia["mostrar_mensaje"]:
+            principal.add_widget(MDLabel(text=guia["mensaje"], halign="center", adaptive_height=True, bold=True))  
         #titulo del banner Nombre, aliniacion, color y agregacion al banner
         titulo = MDLabel(text="Academia de Artes Musicales", halign="center", bold=True, theme_text_color="Custom", text_color=(1, 1, 1, 1))
         banner.add_widget(titulo)
