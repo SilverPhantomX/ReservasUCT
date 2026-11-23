@@ -8,11 +8,9 @@ from kivy.metrics import dp
 from datetime import datetime
 import calendar
 from kivy.utils import get_color_from_hex
-from kivymd.uix.anchorlayout import MDAnchorLayout
 from services.remote_config import obtener_guia_reserva
 
 AZUL = get_color_from_hex("#01568e")
-GUINDA = get_color_from_hex("#7B1D35")
 
 
 # --------------------------------------------------
@@ -22,7 +20,6 @@ GUINDA = get_color_from_hex("#7B1D35")
 class Calendario(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.layout = MDBoxLayout(orientation='vertical')
                 
         principal = MDBoxLayout(orientation="vertical") #layout de la app
         
@@ -86,9 +83,6 @@ class Calendario(MDScreen):
         # Metemos el contenido dentro del scroll
         scroll.add_widget(contenido)
 
-        # Panel inferior de navegación tamaño
-        navegacion = MDBoxLayout(size_hint_y=None, height=dp(70), md_bg_color=AZUL)
-
 
         #PINTAMOS LA PANTALLA CALENDARIO
 
@@ -149,7 +143,7 @@ class Calendario(MDScreen):
         # Eliminamos los elementos del mes anterior
         self.calendario.clear_widgets()
 
-        # Nombres de los días de la semana
+        # Nombres de los días de la semana print
         dias_semana = [
             "Lun",
             "Mar",
@@ -201,7 +195,6 @@ class Calendario(MDScreen):
             f"{self.mes_seleccionado:02d}/"
             f"{self.anio_seleccionado}"
         )
-        print (f"Fecha selecionada: {fecha}")
         
         # Buscamos la pantalla del formulario
         formulario = self.manager.get_screen("formulario")

@@ -1,0 +1,415 @@
+[
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 13:53:48",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 13:56:12",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 14:00:13",
+        "propiedades": {}
+    },
+    {
+        "evento": "login_fallido",
+        "fecha": "23/11/2026 14:00:16",
+        "propiedades": {
+            "correo": ""
+        }
+    },
+    {
+        "evento": "login_fallido",
+        "fecha": "23/11/2026 14:00:20",
+        "propiedades": {
+            "correo": "gbdd"
+        }
+    },
+    {
+        "evento": "login_exitoso",
+        "fecha": "23/11/2026 14:00:47",
+        "propiedades": {
+            "correo": "wea@.cl",
+            "rol": "Estudiante"
+        }
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 14:04:28",
+        "propiedades": {}
+    },
+    {
+        "evento": "reserva_confirmada",
+        "fecha": "23/11/2026 14:05:09",
+        "propiedades": {
+            "sala": "Sala de piano",
+            "dia": "24/11/2026",
+            "hora_inicio": "11:00",
+            "hora_termino": "14:00"
+        }
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 14:09:48",
+        "propiedades": {}
+    },
+    {
+        "evento": "login_fallido",
+        "fecha": "23/11/2026 14:10:07",
+        "propiedades": {
+            "correo": "wea@.cl"
+        }
+    },
+    {
+        "evento": "login_fallido",
+        "fecha": "23/11/2026 14:10:08",
+        "propiedades": {
+            "correo": "wea@.cl"
+        }
+    },
+    {
+        "evento": "login_fallido",
+        "fecha": "23/11/2026 14:10:10",
+        "propiedades": {
+            "correo": "wea@.cl"
+        }
+    },
+    {
+        "evento": "login_exitoso",
+        "fecha": "23/11/2026 14:10:31",
+        "propiedades": {
+            "correo": "wea@.cl",
+            "rol": "Estudiante"
+        }
+    },
+    {
+        "evento": "reserva_confirmada",
+        "fecha": "23/11/2026 14:12:07",
+        "propiedades": {
+            "sala": "Sala de piano",
+            "dia": "23/11/2026",
+            "hora_inicio": "14:00",
+            "hora_termino": "21:00"
+        }
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 14:19:42",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 14:19:47",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 14:20:50",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 14:35:18",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 14:37:26",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 14:52:19",
+        "propiedades": {}
+    },
+    {
+        "evento": "reserva_confirmada",
+        "fecha": "23/11/2026 14:52:44",
+        "propiedades": {
+            "sala": "Sala de piano",
+            "dia": "08/12/2026",
+            "hora_inicio": "14:00",
+            "hora_termino": "17:00"
+        }
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 14:57:14",
+        "propiedades": {}
+    },
+    {
+        "evento": "reserva_confirmada",
+        "fecha": "23/11/2026 14:57:34",
+        "propiedades": {
+            "sala": "Sala de piano",
+            "dia": "23/11/2026",
+            "hora_inicio": "09:00",
+            "hora_termino": "13:00"
+        }
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 14:58:34",
+        "propiedades": {}
+    },
+    {
+        "evento": "login_exitoso",
+        "fecha": "23/11/2026 14:59:11",
+        "propiedades": {
+            "correo": "alo@.cl",
+            "rol": "Estudiante"
+        }
+    },
+    {
+        "evento": "reserva_confirmada",
+        "fecha": "23/11/2026 14:59:40",
+        "propiedades": {
+            "sala": "Sala de piano",
+            "dia": "23/11/2026",
+            "hora_inicio": "13:00",
+            "hora_termino": "14:00"
+        }
+    },
+    {
+        "evento": "login_exitoso",
+        "fecha": "23/11/2026 15:00:03",
+        "propiedades": {
+            "correo": "alo@.cl",
+            "rol": "Estudiante"
+        }
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 15:04:59",
+        "propiedades": {}
+    },
+    {
+        "evento": "login_exitoso",
+        "fecha": "23/11/2026 15:05:08",
+        "propiedades": {
+            "correo": "alo@.cl",
+            "rol": "Estudiante"
+        }
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 15:08:28",
+        "propiedades": {}
+    },
+    {
+        "evento": "login_fallido",
+        "fecha": "23/11/2026 15:08:30",
+        "propiedades": {
+            "correo": ""
+        }
+    },
+    {
+        "evento": "login_exitoso",
+        "fecha": "23/11/2026 15:08:41",
+        "propiedades": {
+            "correo": "alo@.cl",
+            "rol": "Estudiante"
+        }
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 15:12:02",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 15:12:34",
+        "propiedades": {}
+    },
+    {
+        "evento": "reserva_confirmada",
+        "fecha": "23/11/2026 15:13:24",
+        "propiedades": {
+            "sala": "Auditorio",
+            "dia": "23/11/2026",
+            "hora_inicio": "15:00",
+            "hora_termino": "21:00"
+        }
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 15:15:08",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 15:15:38",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 15:17:52",
+        "propiedades": {}
+    },
+    {
+        "evento": "reserva_confirmada",
+        "fecha": "23/11/2026 15:18:13",
+        "propiedades": {
+            "sala": "Sala de teoria músical",
+            "dia": "23/11/2026",
+            "hora_inicio": "14:00",
+            "hora_termino": "20:00"
+        }
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 15:30:16",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 15:31:56",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 15:32:23",
+        "propiedades": {}
+    },
+    {
+        "evento": "reserva_confirmada",
+        "fecha": "23/11/2026 15:32:50",
+        "propiedades": {
+            "sala": "Sala de percusión",
+            "dia": "23/11/2026",
+            "hora_inicio": "10:00",
+            "hora_termino": "14:00"
+        }
+    },
+    {
+        "evento": "reserva_confirmada",
+        "fecha": "23/11/2026 15:33:21",
+        "propiedades": {
+            "sala": "Auditorio",
+            "dia": "26/11/2026",
+            "hora_inicio": "12:00",
+            "hora_termino": "20:00"
+        }
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 15:34:29",
+        "propiedades": {}
+    },
+    {
+        "evento": "reserva_confirmada",
+        "fecha": "23/11/2026 15:34:45",
+        "propiedades": {
+            "sala": "Sala de piano",
+            "dia": "25/11/2026",
+            "hora_inicio": "16:00",
+            "hora_termino": "18:00"
+        }
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 15:48:21",
+        "propiedades": {}
+    },
+    {
+        "evento": "login_exitoso",
+        "fecha": "23/11/2026 15:48:43",
+        "propiedades": {
+            "correo": "alo@.cl",
+            "rol": "Estudiante"
+        }
+    },
+    {
+        "evento": "reserva_confirmada",
+        "fecha": "23/11/2026 15:49:42",
+        "propiedades": {
+            "sala": "Auditorio",
+            "dia": "10/12/2026",
+            "hora_inicio": "15:00",
+            "hora_termino": "20:00"
+        }
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 16:00:20",
+        "propiedades": {}
+    },
+    {
+        "evento": "login_fallido",
+        "fecha": "23/11/2026 16:00:34",
+        "propiedades": {
+            "correo": "asd"
+        }
+    },
+    {
+        "evento": "login_fallido",
+        "fecha": "23/11/2026 16:00:47",
+        "propiedades": {
+            "correo": "alo@.cl"
+        }
+    },
+    {
+        "evento": "login_exitoso",
+        "fecha": "23/11/2026 16:00:51",
+        "propiedades": {
+            "correo": "alo@.cl",
+            "rol": "Estudiante"
+        }
+    },
+    {
+        "evento": "login_exitoso",
+        "fecha": "23/11/2026 16:05:12",
+        "propiedades": {
+            "correo": "alo@.cl",
+            "rol": "Estudiante"
+        }
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 16:13:42",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 16:14:17",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 16:15:50",
+        "propiedades": {}
+    },
+    {
+        "evento": "login_fallido",
+        "fecha": "23/11/2026 16:15:51",
+        "propiedades": {
+            "correo": ""
+        }
+    },
+    {
+        "evento": "login_exitoso",
+        "fecha": "23/11/2026 16:16:01",
+        "propiedades": {
+            "correo": "alo@.cl",
+            "rol": "Estudiante"
+        }
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 16:19:31",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 16:19:53",
+        "propiedades": {}
+    },
+    {
+        "evento": "app_abierta",
+        "fecha": "23/11/2026 16:22:59",
+        "propiedades": {}
+    }
+]

@@ -2,25 +2,21 @@ from kivy.uix.screenmanager import Screen
 from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDButton, MDButtonIcon, MDButtonText
 from kivymd.uix.boxlayout import MDBoxLayout
-from views.calendario import AZUL
 from kivymd.uix.anchorlayout import MDAnchorLayout
 from kivymd.uix.scrollview import MDScrollView
 from kivy.metrics import dp
 from kivymd.app import MDApp
-from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.dialog import MDDialog, MDDialogButtonContainer, MDDialogHeadlineText, MDDialogSupportingText
 from kivy.utils import get_color_from_hex
 from kivymd.uix.textfield import MDTextField, MDTextFieldHintText
 from services.persistencia_sesion import guardar_sesion
 from services.analytics_service import registrar_evento
+from views.componentes import mostrar_dialogo
 
 AZUL = get_color_from_hex("#01568e")
-GUINDA = get_color_from_hex("#7B1D35")
 
 class LoginScreen(Screen):
     def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            self.layout = MDBoxLayout(orientation='vertical')   
             principal = MDBoxLayout(orientation="vertical") #layout de la app
             
             
@@ -118,26 +114,10 @@ class LoginScreen(Screen):
                 
                 guardar_sesion(usuario)
 
-                print(f"Sesión iniciada: {usuario.nombre}")
                 self.manager.current = "calendario"
                 return
             
         registrar_evento( "login_fallido", {"correo": correo})
-        self.mostrar_dialogo("Error", "Correo o contraseña incorrectos.")
+        mostrar_dialogo("Error", "Correo o contraseña incorrectos.")
         
-    def mostrar_dialogo(self, titulo, texto):
-        contenedor = MDDialogButtonContainer()
-
-        contenedor.add_widget(MDButton(MDButtonText(text="ENTENDIDO"),
-                                       style="text",
-                                       on_release=self.cerrar_dialogo))
-
-        self.dialog = MDDialog(MDDialogHeadlineText(text=titulo),
-                               MDDialogSupportingText(text=texto),
-                               contenedor)
-
-        self.dialog.open()
-
-
-    def cerrar_dialogo(self, *args):
-        self.dialog.dismiss()
+        

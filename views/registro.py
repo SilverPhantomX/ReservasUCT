@@ -5,14 +5,13 @@ from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.anchorlayout import MDAnchorLayout
 from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.textfield import MDTextField, MDTextFieldHintText
-from kivymd.uix.dialog import (MDDialog, MDDialogButtonContainer, MDDialogHeadlineText, MDDialogSupportingText)
 from kivymd.app import MDApp
 from kivy.metrics import dp
 from kivy.utils import get_color_from_hex
 from models.usuario_model import Usuario
+from views.componentes import mostrar_dialogo
 
 AZUL = get_color_from_hex("#01568e")
-GUINDA = get_color_from_hex("#7B1D35")
 
 class RegistroScreen(Screen):
 
@@ -173,13 +172,13 @@ class RegistroScreen(Screen):
         errores = app.gestor_usuarios.agregar(usuario)
 
         if errores:
-            self.mostrar_dialogo(
+            mostrar_dialogo(
                 "No se pudo crear la cuenta",
                 "\n".join(errores)
             )
             return
 
-        self.mostrar_dialogo(
+        mostrar_dialogo(
             "Cuenta creada",
             "Usuario registrado correctamente."
         )
@@ -187,26 +186,3 @@ class RegistroScreen(Screen):
         self.campo_nombre.text = ""
         self.campo_correo.text = ""
         self.campo_contrasena.text = ""
-        
-    def mostrar_dialogo(self, titulo, texto):
-        contenedor = MDDialogButtonContainer()
-
-        contenedor.add_widget(
-            MDButton(
-                MDButtonText(text="ENTENDIDO"),
-                style="text",
-                on_release=self.cerrar_dialogo
-            )
-        )
-
-        self.dialog = MDDialog(
-            MDDialogHeadlineText(text=titulo),
-            MDDialogSupportingText(text=texto),
-            contenedor
-        )
-
-        self.dialog.open()
-
-
-    def cerrar_dialogo(self, *args):
-        self.dialog.dismiss()

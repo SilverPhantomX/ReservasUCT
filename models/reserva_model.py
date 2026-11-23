@@ -3,8 +3,6 @@ Lógica de ReservasUCT (sin interfaz gráfica).
 - Reserva: guarda los datos de UNA reserva y sabe validarse.
 - GestorReservas: guarda la lista de reservas y evita choques de horario.
 """
-import random
-import datetime
 from datetime import datetime
 
 SALAS = ["Sala de piano", "Sala de teoria músical", "Auditorio", "Sala de percusión"]

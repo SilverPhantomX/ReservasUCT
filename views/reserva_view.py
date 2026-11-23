@@ -3,19 +3,17 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.button import MDButton
 from kivymd.uix.label import MDLabel
-from kivymd.uix.dialog import MDDialog, MDDialogButtonContainer, MDDialogHeadlineText, MDDialogSupportingText
-from kivymd.uix.button import MDButtonIcon, MDButtonText
+from kivymd.uix.button import MDButtonText
 from kivy.metrics import dp
-from kivy.utils import get_color_from_hex
 from kivymd.uix.scrollview import MDScrollView
-from kivymd.uix.anchorlayout import MDAnchorLayout
 from views.componentes import (
     banner,
     tarjeta,
     fila_icono,
     chip,
     estado_vacio,
-    boton_contorno
+    boton_contorno,
+    mostrar_dialogo
 )
 
 from views.estilos import (
@@ -27,8 +25,6 @@ from views.estilos import (
     VERDE
 )
 
-AZUL = get_color_from_hex("#01568e")
-GUINDA = get_color_from_hex("#7B1D35")
 
 COLOR_ESTADO = {
     "Pendiente": AZUL,
@@ -40,10 +36,9 @@ COLOR_ESTADO = {
 class ReservaScreen(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.layout = MDBoxLayout(orientation="vertical")
         
         caja = MDBoxLayout(orientation="vertical")
-        caja.add_widget(self.crear_titulo("MIS RESERVAS"))
+        caja.add_widget(banner("MIS RESERVAS"))
         
         self.lista = MDBoxLayout(orientation="vertical", adaptive_height=True, padding=dp(20), spacing=dp(10))
         scroll = MDScrollView()
@@ -62,10 +57,7 @@ class ReservaScreen(MDScreen):
         app.gestor.actualizar_estados()
         self.actualizar_lista()
     
-    def crear_titulo(self, texto):
-        barra = MDBoxLayout(size_hint_y=None, height=dp(70), md_bg_color=AZUL)
-        barra.add_widget( MDLabel(text=texto, halign="center", bold=True, theme_text_color="Custom", text_color=(1, 1, 1, 1)))
-        return barra
+
 
     def crear_boton(self, texto, color, accion):
         return MDButton(
@@ -128,23 +120,13 @@ class ReservaScreen(MDScreen):
                 )
     
               
-    def mostrar_dialogo(self, titulo, texto, botones):
-        contenedor = MDDialogButtonContainer(spacing="8dp")
-        for texto_boton, funcion in botones:
-            contenedor.add_widget(MDButton(MDButtonText(text=texto_boton), style="text", on_release=funcion))
-        self.dialog = MDDialog(MDDialogHeadlineText(text=titulo), MDDialogSupportingText(text=texto), contenedor)
-        self.dialog.open()
-
-    def cerrar_dialog(self, *args):
-        self.dialog.dismiss()
 
     def preguntar_anular(self, reserva):
         self.reserva_a_anular = reserva
-        self.mostrar_dialogo("¿Anular reserva?", reserva.resumen(), [("NO",self.cerrar_dialog), ("SÍ, ANULAR",self.anular_reserva)])
+        mostrar_dialogo("¿Anular reserva?", reserva.resumen(), [("NO", None), ("SÍ, ANULAR",self.anular_reserva)])
 
     def anular_reserva(self, *args):
-        app = MDApp.get_running_app()
-        self.dialog.dismiss()                    
+        app = MDApp.get_running_app()                   
         app.gestor.anular(self.reserva_a_anular)
         self.actualizar_lista()                  
 

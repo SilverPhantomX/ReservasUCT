@@ -3,13 +3,10 @@ Widgets reutilizables de la interfaz (solo presentación, sin lógica de negocio
 Así cada pantalla arma su vista con las mismas piezas y el estilo queda en un solo lugar.
 """
 from kivy.metrics import dp
-from kivymd.uix.anchorlayout import MDAnchorLayout
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.button import MDButton, MDButtonIcon, MDButtonText
 from kivymd.uix.dialog import MDDialog, MDDialogButtonContainer, MDDialogHeadlineText, MDDialogSupportingText
 from kivymd.uix.label import MDLabel, MDIcon
-from kivymd.uix.textfield import (MDTextField, MDTextFieldHintText, MDTextFieldLeadingIcon,
-                                  MDTextFieldTrailingIcon)
 
 from views.estilos import AZUL, AZUL_SUAVE, BLANCO, GRIS_ICONO, GRIS_TEXTO, ALTO_BARRA
 
@@ -23,29 +20,6 @@ def banner(texto):
                              theme_text_color="Custom", text_color=BLANCO))
     return barra
 
-
-def encabezado(titulo, subtitulo=None):
-    """Título grande con un subtítulo gris debajo."""
-    caja = MDBoxLayout(orientation="vertical", adaptive_height=True, spacing=dp(4))
-    caja.add_widget(MDLabel(text=titulo, halign="center", bold=True, adaptive_height=True,
-                            font_style="Headline", role="small",
-                            theme_text_color="Custom", text_color=AZUL))
-    if subtitulo:
-        caja.add_widget(MDLabel(text=subtitulo, halign="center", adaptive_height=True,
-                                font_style="Body", role="medium",
-                                theme_text_color="Custom", text_color=GRIS_TEXTO))
-    return caja
-
-
-def contenido_centrado(*widgets):
-    """Columna centrada en la pantalla (para formularios cortos como login y registro)."""
-    columna = MDBoxLayout(orientation="vertical", adaptive_height=True,
-                          size_hint_x=0.88, spacing=dp(14), padding=(0, dp(10)))
-    for widget in widgets:
-        columna.add_widget(widget)
-    centro = MDAnchorLayout(anchor_x="center", anchor_y="center")
-    centro.add_widget(columna)
-    return centro
 
 
 def icono_grande(icono, tamano=70):
@@ -120,46 +94,7 @@ def indicador(icono, color, numero_label, texto):
     return columna
 
 
-# ---------- campos ----------
-
-def campo_texto(hint, icono, password=False):
-    """MDTextField con icono a la izquierda. Si es contraseña, agrega un ojo para mostrarla."""
-    partes = [MDTextFieldLeadingIcon(icon=icono), MDTextFieldHintText(text=hint)]
-
-    ojo = None
-    if password:
-        ojo = MDTextFieldTrailingIcon(icon="eye-off")
-        partes.append(ojo)
-
-    campo = MDTextField(*partes, mode="outlined", password=password)
-
-    if ojo is not None:
-        # KivyMD dibuja el icono como imagen dentro del campo (el widget del icono no tiene
-        # posición real), así que se detecta el toque en la franja derecha del propio campo.
-        def alternar(campo_widget, toque):
-            en_el_ojo = (campo_widget.collide_point(*toque.pos)
-                         and toque.x >= campo_widget.right - dp(48))
-            if en_el_ojo:
-                campo_widget.password = not campo_widget.password
-                ojo.icon = "eye-off" if campo_widget.password else "eye"
-                return True  # el toque no llega al texto (no mueve el cursor)
-            return False
-        campo.bind(on_touch_down=alternar)
-
-    return campo
-
-
 # ---------- botones ----------
-
-def boton_relleno(texto, color, accion):
-    """Botón de ancho completo con fondo de color (acción principal)."""
-    return MDButton(
-        MDButtonText(text=texto, theme_text_color="Custom", text_color=BLANCO,
-                     pos_hint={"center_x": 0.5, "center_y": 0.5}),
-        style="filled", theme_bg_color="Custom", md_bg_color=color,
-        theme_width="Custom", size_hint_x=1, on_release=accion
-    )
-
 
 def boton_contorno(texto, color, accion, icono=None):
     """Botón de ancho completo solo con borde (acción secundaria)."""

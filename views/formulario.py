@@ -5,16 +5,15 @@ from kivymd.uix.button import MDButton
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.label import MDLabel
-from kivymd.uix.dialog import MDDialog, MDDialogButtonContainer, MDDialogHeadlineText, MDDialogSupportingText
-from kivymd.uix.button import MDButtonIcon, MDButtonText
+from kivymd.uix.button import MDButtonText
 from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.textfield import MDTextField, MDTextFieldHintText
-from kivymd.uix.anchorlayout import MDAnchorLayout
-from models.reserva_model import (SALAS, DIAS, HORAS, MOTIVOS, MAX_ACOMPANANTES)
+from models.reserva_model import (SALAS, HORAS, MOTIVOS, MAX_ACOMPANANTES)
 from kivy.utils import get_color_from_hex
 from models.reserva_model import Reserva
 from services.analytics_service import registrar_evento
 from services.remote_config import obtener_texto_confirmacion
+from views.componentes import mostrar_dialogo
 
 AZUL = get_color_from_hex("#01568e")
 GUINDA = get_color_from_hex("#7B1D35")
@@ -22,7 +21,7 @@ GUINDA = get_color_from_hex("#7B1D35")
 class FormularioScreen(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.layout = MDBoxLayout(orientation="vertical")
+        
         caja = MDBoxLayout(orientation="vertical")
         caja.add_widget(self.crear_titulo("FORMULARIO DE RESERVA"))
         
@@ -33,7 +32,6 @@ class FormularioScreen(MDScreen):
         formulario.add_widget(self.campo_correo)
         
         formulario.add_widget(self.crear_boton_menu("sala", "Elegir sala", SALAS))
-        #formulario.add_widget(self.crear_boton_menu("dia", "Elegir día", DIAS))
         self.texto_fecha = MDButtonText(
             text="Fecha no seleccionada",
             pos_hint={
@@ -59,42 +57,12 @@ class FormularioScreen(MDScreen):
         formulario.add_widget(self.crear_boton(obtener_texto_confirmacion(), GUINDA,self.confirmar_reserva))
         formulario.add_widget(self.crear_boton("VER MIS RESERVAS", AZUL, self.ir_a_reservas))
         
-        navegacion = MDBoxLayout(size_hint_y=None, height=dp(70), md_bg_color=AZUL)
-        zona_inicio = MDAnchorLayout(size_hint_x=1, anchor_x="center", anchor_y="center")
-        zona_reservas = MDAnchorLayout(size_hint_x=1, anchor_x="center", anchor_y="center")
-        zona_perfil = MDAnchorLayout(size_hint_x=1, anchor_x="center", anchor_y="center")
-        
-        btn_inicio = MDButton(
-            MDButtonIcon(icon="home", theme_text_color="Custom", text_color=(1, 1, 1, 1)),
-            MDButtonText(text="Inicio", theme_text_color="Custom", text_color=(1, 1, 1, 1)),
-            style="text", size_hint=(None, None),
-            on_release=lambda x: setattr(self.manager, 'current', 'calendario')
-        )
-        btn_reservas = MDButton(
-            MDButtonIcon(icon="calendar", theme_text_color="Custom", text_color=(1, 1, 1, 1)),
-            MDButtonText(text="Reservas", theme_text_color="Custom", text_color=(1, 1, 1, 1)),
-            style="text", size_hint=(None, None),
-            on_release=lambda x: setattr(self.manager, 'current', 'reservas')
-        )
-        # Botón Perfil
-        btn_perfil = MDButton(
-            MDButtonIcon(icon="account", theme_text_color="Custom", text_color=(1, 1, 1, 1)),
-            MDButtonText(text="Perfil",theme_text_color="Custom",text_color=(1, 1, 1, 1)),
-            style="text", size_hint=(None, None),
-            on_release=lambda x: setattr(self.manager, 'current', 'perfil'))
-        
-        zona_inicio.add_widget(btn_inicio)
-        zona_reservas.add_widget(btn_reservas)
-        zona_perfil.add_widget(btn_perfil)
-        navegacion.add_widget(zona_inicio)
-        navegacion.add_widget(zona_reservas)
-        navegacion.add_widget(zona_perfil)
 
         scroll = MDScrollView()
         scroll.add_widget(formulario)
         caja.add_widget(scroll)
         self.add_widget(caja)
-
+        
     def crear_titulo(self, texto):
         barra = MDBoxLayout(size_hint_y=None, height=dp(70), md_bg_color=AZUL)
         barra.add_widget(MDLabel(text=texto, halign="center", bold=True, theme_text_color="Custom", text_color=(1, 1, 1, 1)))
@@ -120,18 +88,16 @@ class FormularioScreen(MDScreen):
         if campo in ["hora_inicio", "hora_termino"]:
 
             if app.seleccion["dia"] is None:
-                self.mostrar_dialogo(
+                mostrar_dialogo(
                     "Fecha requerida",
-                    "Primero debes seleccionar una fecha.",
-                    [("ENTENDIDO", self.cerrar_dialog)]
+                    "Primero debes seleccionar una fecha."
                 )
                 return
 
             if app.seleccion["sala"] is None:
-                self.mostrar_dialogo(
+                mostrar_dialogo(
                     "Sala requerida",
-                    "Primero debes seleccionar una sala.",
-                    [("ENTENDIDO", self.cerrar_dialog)]
+                    "Primero debes seleccionar una sala."
                 )
                 return
 
@@ -146,10 +112,9 @@ class FormularioScreen(MDScreen):
                 )
 
                 if not opciones:
-                    self.mostrar_dialogo(
+                    mostrar_dialogo(
                         "Sin disponibilidad",
-                        "No quedan horas disponibles para esta sala.",
-                        [("ENTENDIDO", self.cerrar_dialog)]
+                        "No quedan horas disponibles para esta sala."
                     )
                     return
 
@@ -157,10 +122,9 @@ class FormularioScreen(MDScreen):
             elif campo == "hora_termino":
             
                 if app.seleccion["hora_inicio"] is None:
-                    self.mostrar_dialogo(
+                    mostrar_dialogo(
                         "Hora de inicio requerida",
-                        "Primero debes elegir la hora de inicio.",
-                        [("ENTENDIDO", self.cerrar_dialog)]
+                        "Primero debes elegir la hora de inicio."
                     )
                     return
     
@@ -211,15 +175,6 @@ class FormularioScreen(MDScreen):
             app.seleccion["hora_termino"] = None
             app.textos_botones["hora_termino"].text = "Elegir hora de termino"
             
-    def mostrar_dialogo(self, titulo, texto, botones):
-        contenedor = MDDialogButtonContainer(spacing="8dp")
-        for texto_boton, funcion in botones:
-            contenedor.add_widget(MDButton(MDButtonText(text=texto_boton), style="text", on_release=funcion))
-        self.dialog = MDDialog(MDDialogHeadlineText(text=titulo), MDDialogSupportingText(text=texto), contenedor)
-        self.dialog.open()
-
-    def cerrar_dialog(self, *args):
-        self.dialog.dismiss()
 
     def confirmar_reserva(self, *args):
         app = MDApp.get_running_app()
@@ -230,9 +185,9 @@ class FormularioScreen(MDScreen):
         )
         errores = self.reserva_nueva.validar()
         if errores:
-            self.mostrar_dialogo("Revisa el formulario","\n".join(errores),[("ENTENDIDO",self.cerrar_dialog)])
+            mostrar_dialogo("Revisa el formulario","\n".join(errores),[("ENTENDIDO",self.cerrar_dialog)])
         else:
-            self.mostrar_dialogo("¿Confirmar reserva?", self.reserva_nueva.resumen(),
+            mostrar_dialogo("¿Confirmar reserva?", self.reserva_nueva.resumen(),
                                 [("CANCELAR", self.cerrar_dialog), ("CONFIRMAR",self.guardar_reserva)])
 
     def guardar_reserva(self, *args):
@@ -240,7 +195,7 @@ class FormularioScreen(MDScreen):
         app = MDApp.get_running_app()
         errores = app.gestor.agregar(self.reserva_nueva)
         if errores:
-            self.mostrar_dialogo("No se pudo reservar", "\n".join(errores), [( "ENTENDIDO", self.cerrar_dialog)])
+            mostrar_dialogo("No se pudo reservar", "\n".join(errores), [( "ENTENDIDO", self.cerrar_dialog)])
         else:
             registrar_evento("reserva_confirmada",
                     {
@@ -254,21 +209,10 @@ class FormularioScreen(MDScreen):
             self.ir_a_reservas()
 
     def ir_a_reservas(self, *args):    
-        self.limpiar_formulario()
         self.manager.current = "reservas"
-        
-    def ir_inicio(self, *args):
-        self.limpiar_formulario()
-        self.manager.current = "calendario"
-        
-    def ir_perfil(self, *args):
-        self.limpiar_formulario()
-        self.manager.current = "perfil"
         
         
     def recibir_fecha(self, fecha):
-        # Guardamos la fecha recibida
-        self.fecha_seleccionada = fecha
 
         # Guardamos también la fecha en la selección de la app
         app = MDApp.get_running_app()

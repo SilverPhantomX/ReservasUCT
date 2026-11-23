@@ -1,0 +1,24 @@
+{
+  "boton_reserva": {
+    "activo": true,
+    "variante": "A",
+    "A": {
+      "texto_boton": "CONFIRMAR RESERVA"
+    },
+    "B": {
+      "texto_boton": "RESERVAR AHORA"
+    }
+  },
+
+  "guia_reserva": {
+    "activo": true,
+    "variante": "B",
+    "A": {
+      "mostrar_mensaje": false
+    },
+    "B": {
+      "mostrar_mensaje": true,
+      "mensaje": "Selecciona una fecha para reservar una sala"
+    }
+  }
+}

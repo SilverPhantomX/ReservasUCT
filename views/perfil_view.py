@@ -1,22 +1,14 @@
 from kivy.uix.screenmanager import Screen
 from kivymd.uix.label import MDLabel
-from kivymd.uix.button import MDButton, MDButtonIcon, MDButtonText
 from kivymd.uix.boxlayout import MDBoxLayout
-from views.calendario import AZUL
 from kivymd.uix.scrollview import MDScrollView
 from kivy.metrics import dp
 from kivymd.app import MDApp
-from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.dialog import MDDialog, MDDialogButtonContainer, MDDialogHeadlineText, MDDialogSupportingText
-from kivy.utils import get_color_from_hex
-from kivymd.uix.anchorlayout import MDAnchorLayout
 from services.persistencia_sesion import cerrar_sesion
 from views.componentes import (banner, icono_grande, tarjeta, fila_dato, indicador, boton_contorno, boton_enlace, mostrar_dialogo)
 from views.estilos import AZUL, GUINDA, GRIS_TEXTO, BLANCO
 
 
-AZUL = get_color_from_hex("#01568e")
-GUINDA = get_color_from_hex("#7B1D35")
 ESTADOS_PERFIL = [
     ("Pendiente", "Pendientes", "clock-outline", AZUL),
     ("Confirmada", "Confirmadas", "check-circle-outline", AZUL),
