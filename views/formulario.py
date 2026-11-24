@@ -185,17 +185,16 @@ class FormularioScreen(MDScreen):
         )
         errores = self.reserva_nueva.validar()
         if errores:
-            mostrar_dialogo("Revisa el formulario","\n".join(errores),[("ENTENDIDO",self.cerrar_dialog)])
+            mostrar_dialogo("Revisa el formulario","\n".join(errores))
         else:
             mostrar_dialogo("¿Confirmar reserva?", self.reserva_nueva.resumen(),
-                                [("CANCELAR", self.cerrar_dialog), ("CONFIRMAR",self.guardar_reserva)])
+                                [("CANCELAR", None), ("CONFIRMAR",self.guardar_reserva)])
 
     def guardar_reserva(self, *args):
-        self.dialog.dismiss()
         app = MDApp.get_running_app()
         errores = app.gestor.agregar(self.reserva_nueva)
         if errores:
-            mostrar_dialogo("No se pudo reservar", "\n".join(errores), [( "ENTENDIDO", self.cerrar_dialog)])
+            mostrar_dialogo("No se pudo reservar", "\n".join(errores))
         else:
             registrar_evento("reserva_confirmada",
                     {
